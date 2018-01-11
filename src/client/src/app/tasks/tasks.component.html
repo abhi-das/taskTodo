@@ -23,7 +23,12 @@
 	</form>
 </div>
 
-
+<div *ngIf="errMsg.isError">
+	<p class="`get-task-error text-danger" *ngIf="errMsg.getTaskErr.message">{{errMsg.getTaskErr.message}}</p>
+	<p class="`new-task-error text-danger" *ngIf="errMsg.newTaskErr.message">{{errMsg.newTaskErr.message}}</p>
+	<p class="`edit-task-error text-danger" *ngIf="errMsg.editTaskErr.message">{{errMsg.editTaskErr.message}}</p>
+	<p class="`delete-task-error text-danger" *ngIf="errMsg.deleteTaskErr.message">{{errMsg.deleteTaskErr.message}}</p>
+</div>
 <table class='table' *ngIf="taskList">
 	<thead>
 		<tr>
