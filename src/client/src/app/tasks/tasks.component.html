@@ -1,0 +1,46 @@
+<div class="add-task">
+	<form 
+		[formGroup]='addTaskForm' 
+		(ngSubmit)="onNewTaskSubmit()">
+		<div class="form-group">
+			<input class="form-control" type="text" formControlName="title" />
+		</div>
+		<fieldset class="form-group">
+			<div class="form-check">
+				<label class="form-check-label">
+					<input class="form-check-input" id="complete" type="radio" 
+						formControlName="isDone" value="true"> Completed
+				</label>
+				<label class="form-check-label">
+					<input class="form-check-input" id="notComplete" type="radio" 
+						formControlName="isDone" value="false"> Not Completed
+				</label>
+			</div>
+		</fieldset>
+		<button type="submit" class="btn btn-primary btn-sm">Add New Task</button>
+	</form>
+</div>
+
+
+<table class='table' *ngIf="taskList">
+	<thead>
+		<tr>
+			<th>Status</th>
+			<th>Title</th>
+			<th>Operation</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let tk of taskList">
+			<td>
+				<input type="checkbox" checked="{{tk.isDone =='true' ? 'check' : ''}}">
+			</td>
+			<td>{{tk.title}}</td>
+			<td>
+				<button class="btn btn-sm btn-danger" (click)="onTaskDelete(tk._id)">
+					done
+				</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
