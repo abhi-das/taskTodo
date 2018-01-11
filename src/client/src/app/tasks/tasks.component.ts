@@ -46,8 +46,7 @@ export class TasksComponent implements OnInit {
 
 	onTaskDelete(id: string) {
 		this._taskSrv.deleteTask(id).subscribe(res => {
-			// this.taskList.
-			// console.log(this.taskList,'---------',id,'----------------',res);
+			
 			if(res['ok'] == '1') {
 
 				let deletedItm = this.taskList.filter(itm => {
@@ -66,7 +65,7 @@ export class TasksComponent implements OnInit {
 		editTask['isDone'] = $event.target.checked.toString();
 
 		this._taskSrv.updateTask(editTask).subscribe(res => {
-			console.log(res);
+			// console.log(res);
 		})
 
 	}
