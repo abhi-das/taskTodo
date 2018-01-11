@@ -1,40 +1,44 @@
-import { Injectable } from '@angular/core';
-
-import { HttpClient } from '@angular/common/http';
-
-import 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-import { Task } from '../models/task.module';
-
+import {
+    Injectable
+} from '@angular/core';
+import {
+    HttpClient
+} from '@angular/common/http';
+import {
+    Observable
+} from 'rxjs/Observable';
+import {
+    Task
+} from '../models/task.module';
 
 @Injectable()
 export class TasksService {
 
-  constructor(private _httpClient: HttpClient) { }
+    constructor(private _httpClient: HttpClient) {}
 
-  domain: string = 'http://localhost:3000';
+    domain = 'http://localhost:3000';
 
-  getTasks(): Observable< any > {
+    getTasks(): Observable < any > {
 
-  	return this._httpClient.get<Task[]>(`${this.domain}/api/tasks`);
+        return this._httpClient.get < Task[] > (`${this.domain}/api/tasks`);
 
-  }
+    }
 
-  addTask(task: Task): Observable< any > {
+    addTask(task: Task): Observable < any > {
 
-  	return this._httpClient.post<Task>(`${this.domain}/api/tasks`, task);
+        return this._httpClient.post < Task > (`${this.domain}/api/tasks`, task);
 
-  }
+    }
 
-  deleteTask(id:string): Observable< any > {
+    deleteTask(id: string): Observable < any > {
 
-  	return this._httpClient.delete(`${this.domain}/api/tasks/${id}`);
+        return this._httpClient.delete(`${this.domain}/api/tasks/${id}`);
 
-  }
+    }
 
-  updateTask(task: Task): Observable< any > {
+    updateTask(task: Task): Observable < any > {
 
-  	return this._httpClient.put<Task>(`${this.domain}/api/tasks/${task['_id']}`, task);
+        return this._httpClient.put < Task > (`${this.domain}/api/tasks/${task['_id']}`, task);
 
-  }
+    }
 }

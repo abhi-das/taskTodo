@@ -1,6 +1,6 @@
 export class Task {
-	_id ?: string;
-	title: string;
-	isDone: string;
-	n ?: number;
+    _id ?: string;
+    title: string;
+    isDone: string;
+    n ?: number;
 }

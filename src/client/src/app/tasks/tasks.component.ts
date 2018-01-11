@@ -1,170 +1,181 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    Component,
+    OnInit
+} from '@angular/core';
 
-import { TasksService } from '../services/tasks.service';
-import { Task } from '../models/task.module';
-import { HttpErrorResponse } from '@angular/common/http';
-
-import { FormGroup, FormBuilder } from '@angular/forms';
+import {
+    TasksService
+} from '../services/tasks.service';
+import {
+    Task
+} from '../models/task.module';
+import {
+    HttpErrorResponse
+} from '@angular/common/http';
+import {
+    FormGroup,
+    FormBuilder
+} from '@angular/forms';
 
 @Component({
-  selector: 'app-tasks',
-  templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.scss']
+    selector: 'app-tasks',
+    templateUrl: './tasks.component.html',
+    styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
 
-	addTaskForm: FormGroup;
-	taskList: Task[];
-	errMsg: any = {
-		isError: false,
-		getTaskErr: {},
-		newTaskErr: {},
-		editTaskErr: {},
-		deleteTaskErr: {}
-	};
+    addTaskForm: FormGroup;
+    taskList: Task[];
+    errMsg: any = {
+        isError: false,
+        getTaskErr: {},
+        newTaskErr: {},
+        editTaskErr: {},
+        deleteTaskErr: {}
+    };
 
-	constructor(private _taskSrv: TasksService, private _formBd: FormBuilder) { }
+    constructor(private _taskSrv: TasksService, private _formBd: FormBuilder) {}
 
-	ngOnInit() {
+    ngOnInit() {
 
-		this.addTaskForm = this._formBd.group({
-			title: this._formBd.control(null),
-			isDone: this._formBd.control(null)
-		});
+        this.addTaskForm = this._formBd.group({
+            title: this._formBd.control(null),
+            isDone: this._formBd.control(null)
+        });
 
-		this.getTaskList();
-	}
+        this.getTaskList();
+    }
 
-	getTaskList() {
+    getTaskList() {
 
-		this.errMsg.isError = false;
-		this._taskSrv.getTasks().subscribe(
-			(result) => {
-				this.taskList = result;
-			},
-			(err : HttpErrorResponse) => {
+        this.errMsg.isError = false;
+        this._taskSrv.getTasks().subscribe(
+            (result) => {
+                this.taskList = result;
+            },
+            (err: HttpErrorResponse) => {
 
-				this.errMsg.isError = true;
+                this.errMsg.isError = true;
 
-				if(err.error instanceof Error) {
+                if (err.error instanceof Error) {
 
-					//A client-side or network error occurred.
-		 			this.errMsg.getTaskErr.message = err.error.message; 
-					
-				} else {
-					
-					//Backend returns unsuccessful response codes such as 404, 500 etc.
-					// console.log(err);
-					this.errMsg.getTaskErr.message = err.message;
-				}
-			}
-		);
-	}
+                    // A client-side or network error occurred.
+                    this.errMsg.getTaskErr.message = err.error.message;
 
-	onNewTaskSubmit() {
+                } else {
 
-		this.errMsg.isError = false;
+                    // Backend returns unsuccessful response codes such as 404, 500 etc.
+                    // console.log(err);
+                    this.errMsg.getTaskErr.message = err.message;
+                }
+            }
+        );
+    }
 
-		this._taskSrv.addTask(this.addTaskForm.value).subscribe(
-			(res) => {
+    onNewTaskSubmit() {
 
-				// Option 1:
-				// this.taskList.push(res);
-				
-				// Option 2:
-				this.getTaskList();
+        this.errMsg.isError = false;
 
-				this.addTaskForm.reset();
-			},
-			(err: HttpErrorResponse) => {
+        this._taskSrv.addTask(this.addTaskForm.value).subscribe(
+            (res) => {
 
-				this.errMsg.isError = true;
+                // Option 1:
+                // this.taskList.push(res);
 
-				if(err.error instanceof Error) {
+                // Option 2:
+                this.getTaskList();
 
-					//A client-side or network error occurred.
-		 			this.errMsg.newTaskErr.message = err.error.message; 
-					
-				} else {
-					
-					//Backend returns unsuccessful response codes such as 404, 500 etc.
-					// console.log('onNew > ',err);
-					this.errMsg.newTaskErr.message = err.message;
-				}
-			}
-		);
-	}
+                this.addTaskForm.reset();
+            },
+            (err: HttpErrorResponse) => {
 
-	onTaskDelete(id: string) {
+                this.errMsg.isError = true;
 
-		this.errMsg.isError = false;
+                if (err.error instanceof Error) {
 
-		this._taskSrv.deleteTask(id).subscribe(
-			(res) => {
+                    // A client-side or network error occurred.
+                    this.errMsg.newTaskErr.message = err.error.message;
 
-				if(res['ok'] == '1') {
+                } else {
 
-					// Option 1:
-					// let deletedItm = this.taskList.filter(itm => {
-					// 	return itm['_id'] === id;
-					// })
+                    // Backend returns unsuccessful response codes such as 404, 500 etc.
+                    // console.log('onNew > ',err);
+                    this.errMsg.newTaskErr.message = err.message;
+                }
+            }
+        );
+    }
 
-					// let deleteItmIdx = this.taskList.indexOf(deletedItm[0])
-					// this.taskList.splice(deleteItmIdx, 1);
-					
-					// Option 2:
-					this.getTaskList();
-				} else {
+    onTaskDelete(id: string) {
 
-				}
-			},
-			(err: HttpErrorResponse) => {
+        this.errMsg.isError = false;
 
-				this.errMsg.isError = true;
+        this._taskSrv.deleteTask(id).subscribe(
+            (res) => {
 
-				if(err.error instanceof Error) {
+                if (res['ok'] === 1) {
 
-					//A client-side or network error occurred.
-		 			this.errMsg.deleteTaskErr.message = err.error.message; 
-					
-				} else {
-					
-					//Backend returns unsuccessful response codes such as 404, 500 etc.
-					// console.err('Server could not delete task.', err);
-					this.errMsg.deleteTaskErr.message = err.message;
-				}
-			}
-		);
-	}
+                    // Option 1:
+                    // let deletedItm = this.taskList.filter(itm => {
+                    // 	return itm['_id'] === id;
+                    // })
 
-	onEditTask(task: Task, $event: any) {
+                    // let deleteItmIdx = this.taskList.indexOf(deletedItm[0])
+                    // this.taskList.splice(deleteItmIdx, 1);
 
-		var editTask = task;
-		
-		editTask['isDone'] = $event.target.checked.toString();
+                    // Option 2:
+                    this.getTaskList();
+                } else {
 
-		this.errMsg.isError = false;
+                }
+            },
+            (err: HttpErrorResponse) => {
 
-		this._taskSrv.updateTask(editTask).subscribe(
-			(res) => {
-				// console.log(res);
-			},
-			(err: HttpErrorResponse) => {
+                this.errMsg.isError = true;
 
-				this.errMsg.isError = true;
+                if (err.error instanceof Error) {
 
-				if(err.error instanceof Error) {
+                    // A client-side or network error occurred.
+                    this.errMsg.deleteTaskErr.message = err.error.message;
 
-					//A client-side or network error occurred.
-		 			this.errMsg.editTaskErr.message = err.error.message; 
-					
-				} else {
-					
-					//Backend returns unsuccessful response codes such as 404, 500 etc.
-					// console.err('Server could not edit task.', err);
-					this.errMsg.editTaskErr.message = err.message;
-				}
-			}
-		);
-	}
+                } else {
+
+                    // Backend returns unsuccessful response codes such as 404, 500 etc.
+                    // console.err('Server could not delete task.', err);
+                    this.errMsg.deleteTaskErr.message = err.message;
+                }
+            }
+        );
+    }
+
+    onEditTask(task: Task, $event: any) {
+
+        const editTask = task;
+
+        editTask['isDone'] = $event.target.checked.toString();
+
+        this.errMsg.isError = false;
+
+        this._taskSrv.updateTask(editTask).subscribe(
+            (res) => {
+                // console.log(res);
+            },
+            (err: HttpErrorResponse) => {
+
+                this.errMsg.isError = true;
+
+                if (err.error instanceof Error) {
+
+                    // A client-side or network error occurred.
+                    this.errMsg.editTaskErr.message = err.error.message;
+
+                } else {
+
+                    // Backend returns unsuccessful response codes such as 404, 500 etc.
+                    // console.err('Server could not edit task.', err);
+                    this.errMsg.editTaskErr.message = err.message;
+                }
+            }
+        );
+    }
 }
