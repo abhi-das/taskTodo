@@ -33,12 +33,13 @@
 	<tbody>
 		<tr *ngFor="let tk of taskList">
 			<td>
-				<input type="checkbox" checked="{{tk.isDone =='true' ? 'check' : ''}}">
+				<input type="checkbox" checked="{{tk.isDone == 'true' ? 'check' : ''}}"
+					(change)="onEditTask(tk, $event);">
 			</td>
 			<td>{{tk.title}}</td>
 			<td>
 				<button class="btn btn-sm btn-danger" (click)="onTaskDelete(tk._id)">
-					done
+					Delete
 				</button>
 			</td>
 		</tr>

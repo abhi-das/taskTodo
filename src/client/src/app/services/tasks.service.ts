@@ -26,15 +26,15 @@ export class TasksService {
   }
 
   deleteTask(id:string): Observable< any > {
-  	console.log('ser>>>>>>',id);
-  	return this._httpClient.delete(`${this.domain}/api/task/${id}`)
+  	// console.log('ser>>>>>>',id);
+  	return this._httpClient.delete(`${this.domain}/api/tasks/${id}`)
   		.map(res => res);
 
   }
 
   updateTask(task: Task): Observable< any > {
 
-  	return this._httpClient.put(`${this.domain}/api/tasks/${task['id']}`, task)
+  	return this._httpClient.put<Task>(`${this.domain}/api/tasks/${task['_id']}`, task)
   		.map(res => res);
 
   }

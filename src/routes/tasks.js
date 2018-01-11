@@ -48,7 +48,7 @@ router.delete('/tasks/:id', (req, res, next) => {
 	});
 });
 
-router.put('/task/:id', (req, res, next) => {
+router.put('/tasks/:id', (req, res, next) => {
 
 	const task = req.body;
 
@@ -68,7 +68,7 @@ router.put('/task/:id', (req, res, next) => {
 		})
 	} else {
 
-		db.tasks.update({_id: mongojs.ObjectId(req.params.id)}, (err, task) => {
+		db.tasks.update({_id: mongojs.ObjectId(req.params.id)}, updateTask, (err, task) => {
 			if(err) return next(err);
 			res.json(task);
 		})		

@@ -24,10 +24,6 @@ export class TasksComponent implements OnInit {
 			isDone: this._formBd.control(null)
 		});
 
-		// this.addTaskForm.get('isDone').valueChanges.subscribe(vl => {
-		// 	this.addTaskForm.reset();
-		// });
-
 		this.getTaskList();
 	}
 
@@ -40,7 +36,6 @@ export class TasksComponent implements OnInit {
 	}
 
 	onNewTaskSubmit() {
-		// console.log(this.addTaskForm.value);
 
 		this._taskSrv.addTask(this.addTaskForm.value).subscribe(res => {
 			this.taskList.push(res);
@@ -52,8 +47,28 @@ export class TasksComponent implements OnInit {
 	onTaskDelete(id: string) {
 		this._taskSrv.deleteTask(id).subscribe(res => {
 			// this.taskList.
+			// console.log(this.taskList,'---------',id,'----------------',res);
+			if(res['ok'] == '1') {
+
+				let deletedItm = this.taskList.filter(itm => {
+					return itm['_id'] === id;
+				})
+
+				let deleteItmIdx = this.taskList.indexOf(deletedItm[0])
+				this.taskList.splice(deleteItmIdx, 1);
+			}
+		})
+	}
+
+	onEditTask(task: Task, $event: any) {
+
+		var editTask = task;
+		editTask['isDone'] = $event.target.checked.toString();
+
+		this._taskSrv.updateTask(editTask).subscribe(res => {
 			console.log(res);
 		})
+
 	}
 
 }
