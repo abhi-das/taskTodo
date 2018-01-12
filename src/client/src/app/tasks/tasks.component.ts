@@ -1,21 +1,8 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
-
-import {
-    TasksService
-} from '../services/tasks.service';
-import {
-    Task
-} from '../models/task.module';
-import {
-    HttpErrorResponse
-} from '@angular/common/http';
-import {
-    FormGroup,
-    FormBuilder
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { TasksService } from '../services/tasks.service';
+import { Task } from '../models/task.module';
+import { HttpErrorResponse } from '@angular/common/http';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'app-tasks',
