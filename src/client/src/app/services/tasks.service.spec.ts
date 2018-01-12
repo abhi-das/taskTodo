@@ -14,83 +14,82 @@ import { Task } from '../models/task.module';
 
 describe('TasksService', () => {
 
-	let mockNewTask: Task;
-	let existingTasks: Task[];
+    let mockNewTask: Task;
 
-	beforeEach(() => {
+    beforeEach(() => {
 
-		TestBed.configureTestingModule({
-			imports:[ HttpClientModule ],
-		  	providers: [ TasksService, {
-		        provide: XHRBackend,
-		        useClass: MockBackend
-		  	}]
-		});
+        TestBed.configureTestingModule({
+            imports: [HttpClientModule],
+            providers: [TasksService, {
+                provide: XHRBackend,
+                useClass: MockBackend
+            }]
+        });
 
-		mockNewTask = {
-			_id: '5a58063867d2501e21420416',
+        mockNewTask = {
+            _id: '5a58063867d2501e21420416',
             title: 'Deploy Webapp 1',
             isDone: 'false'
         };
 
-	});
+    });
 
-	it('should be created TasksService', inject([TasksService], (_tskSrv: TasksService) => {
-		expect(_tskSrv).toBeTruthy();
-	}));
+    it('should be created TasksService', inject([TasksService], (_tskSrv: TasksService) => {
+        expect(_tskSrv).toBeTruthy();
+    }));
 
-	it('should return task list from mock data', 
-		inject([ TasksService ], (_tskSrv) => {
+    it('should return task list from mock data',
+        inject([TasksService], (_tskSrv) => {
 
-			_tskSrv.getTasks().subscribe(
-				(res) => {
-					// console.log(res);
-					expect(res.length).toBeGreaterThan(1);
-				}
-			);
-		})
-	);
+            _tskSrv.getTasks().subscribe(
+                (res) => {
+                    // console.log(res);
+                    expect(res.length).toBeGreaterThan(1);
+                }
+            );
+        })
+    );
 
-	it('should add new task in the list', 
-		inject([ TasksService ], (_tskSrv) => {
+    it('should add new task in the list',
+        inject([TasksService], (_tskSrv) => {
 
-			_tskSrv.addTask(mockNewTask).subscribe(
-				(res) => {
+            _tskSrv.addTask(mockNewTask).subscribe(
+                (res) => {
 
-					expect(res['_id']).toBe(mockNewTask['_id']);
-				}
-			);
-		})
-	);
+                    expect(res['_id']).toBe(mockNewTask['_id']);
+                }
+            );
+        })
+    );
 
-	it('should update the task', 
-		inject([ TasksService ], (_tskSrv) => {
+    it('should update the task',
+        inject([TasksService], (_tskSrv) => {
 
-			let updateTask = {
-				_id: '5a58063867d2501e21420416',
-	            title: 'Deploy Webapp 1 Now New Name',
-	            isDone: 'true'
-	        };
+            const updateTask = {
+                _id: '5a58063867d2501e21420416',
+                title: 'Deploy Webapp 1 Now New Name',
+                isDone: 'true'
+            };
 
-			_tskSrv.updateTask(updateTask).subscribe(
-				(res) => {
-					// console.log(res);
-					expect(res['ok']).toBe(1);
-				}
-			);
-		})
-	);
+            _tskSrv.updateTask(updateTask).subscribe(
+                (res) => {
+                    // console.log(res);
+                    expect(res['ok']).toBe(1);
+                }
+            );
+        })
+    );
 
-	it('should delete task from the list', 
-		inject([ TasksService ], (_tskSrv) => {
+    it('should delete task from the list',
+        inject([TasksService], (_tskSrv) => {
 
-			_tskSrv.deleteTask(mockNewTask['_id']).subscribe(
-				(res) => {
-					// console.log(res);
-					expect(res['ok']).toBe(1);
-				}
-			);
-		})
-	);
+            _tskSrv.deleteTask(mockNewTask['_id']).subscribe(
+                (res) => {
+                    // console.log(res);
+                    expect(res['ok']).toBe(1);
+                }
+            );
+        })
+    );
 
 });
