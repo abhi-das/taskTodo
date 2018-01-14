@@ -8,11 +8,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 describe('TasksComponent', () => {
-  
+
   let component: TasksComponent;
   let fixture: ComponentFixture<TasksComponent>;
   let _tskSrv: TasksService;
-  let element: any;
+  // let element: any;
 
   beforeEach(async(() => {
 
@@ -36,10 +36,10 @@ describe('TasksComponent', () => {
   });
 
   it('a. should get tasks, b. task list should be greater than 0', async(() => {
-  
+
       component.getTaskList();
       fixture.detectChanges();
-  
+
       expect(component.errMsg.isError).toBeFalsy();
       expect(component.taskList.length).toBeGreaterThan(0);
 
