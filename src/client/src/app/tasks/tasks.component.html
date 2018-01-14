@@ -1,26 +1,41 @@
-<table class='table' *ngIf="taskList">
-	<thead>
-		<tr>
-			<th>Status</th>
-			<th>Title</th>
-			<th>Operation</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr *ngFor="let tk of taskList">
-			<td>
-				<input type="checkbox" checked="{{tk.isDone == 'true' ? 'check' : ''}}"
-					(change)="onEditTask(tk, $event);">
-			</td>
-			<td>{{tk.title}}</td>
-			<td>
+<div class="container" >
+
+	<div class="d-flex flex-row justify-content-center border-bottom">
+		<div class="p-2 col-md-4"><strong>Status</strong></div>
+		<div class="p-2 col-md-4"><strong>Title</strong></div>
+		<div class="p-2 col-md-4"><strong>Operation</strong></div>
+	</div>
+	<div class="records" *ngIf="taskList.length">
+		<div class="d-flex flex-row justify-content-center" *ngFor="let tk of taskList">
+			<div class="p-2 col-md-4">
+
+				<label class="btn btn-primary">
+					<input type="checkbox" checked="{{tk.isDone == 'true' ? 'check' : ''}}"
+						(change)="onEditTask(tk, $event);" autocomplete="off"> complete
+				</label>
+
+			</div>
+			<div class="p-2 col-md-4">
+				<p>{{tk.title}}</p>
+			</div>
+			<div class="p-2 col-md-4">
 				<button class="btn btn-sm btn-danger" (click)="onTaskDelete(tk._id)">
 					Delete
 				</button>
-			</td>
-		</tr>
-	</tbody>
-</table>
+			</div>
+		</div>
+		<!-- <div class="text-right">
+			<button class="btn btn-default" (click)="onDeleteAll();">
+				Delete All Tasks
+			</button>
+		</div> -->
+	</div>
+
+	<div *ngIf="!taskList.length">
+		<p class="text-danger text-center">No Records Found!</p>
+	</div>
+</div>
+
 
 <div *ngIf="errMsg.isError">
 	<p class="`get-task-error text-danger" *ngIf="errMsg.getTaskErr.message">{{errMsg.getTaskErr.message}}</p>
